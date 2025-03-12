@@ -16,6 +16,7 @@ class User(db.Model):
     celular = db.Column(db.String(16), nullable=False)
     senha = db.Column(db.String(100), nullable=False)
     status = db.Column(db.Boolean, nullable=False, default=False)
+    code = db.Column(db.Integer, nullable=True, default=None)
 
 def criacao_tabelas():
     with app.app_context():

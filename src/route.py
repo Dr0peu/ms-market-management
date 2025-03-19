@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, render_template
+from src.Application.Controllers.user_controller import UserController
 
 
 app = Flask (__name__)
@@ -7,9 +8,9 @@ app = Flask (__name__)
 def home():
     return jsonify(message='Home')
 
-@app.route('/cadastro')
+@app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
-    return render_template('cadastro.html')
+    return UserController.register_user()
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,4 +1,5 @@
 from flask import request, jsonify, make_response, render_template
+from Application.Service.user_service import UserService
 
 class UserController:
     @staticmethod

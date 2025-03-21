@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template
-from src.Application.Controllers.user_controller import UserController
+from Application.Controllers.user_controller import UserController
 
 
 app = Flask (__name__)

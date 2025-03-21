@@ -1,8 +1,9 @@
 from flask import Flask, jsonify, render_template
 from Application.Controllers.user_controller import UserController
+from config.data_base import init_db
 
-
-app = Flask (__name__)
+app = Flask(__name__)
+init_db(app)
 
 @app.route('/')
 def home():

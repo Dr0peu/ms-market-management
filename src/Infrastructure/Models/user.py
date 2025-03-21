@@ -1,23 +1,39 @@
-from src.config.data_base import db 
+from config.data_base import db 
+
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(100), nullable=False)
+    nome = db.Column(db.String(100), nullable=False)
     cnpj = db.Column(db.String(18), nullable=False, unique=True)
     email = db.Column(db.String(100), nullable=False, unique=True)
-    password = db.Column(db.String(100), nullable=False)
-    phone = db.Column(db.String(16), nullable=False)
+    celular = db.Column(db.String(16), nullable=False)
+    senha = db.Column(db.String(100), nullable=False)
     status = db.Column(db.Boolean, nullable=False, default=False)
     code = db.Column(db.Integer, nullable=True, default=None)
 
     def to_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "email": self.email,
-            "password": self.password,
-            "cnpj": self.cnpj,
-            "phone": self.phone,
-            "status": self.status,
-            "code": self.code
-        }
+            return {
+                "id": self.id,
+                "nome": self.nome,
+                "cnpj": self.cnpj,
+                "email": self.email,
+                "celular": self.celular,
+                "senha": self.senha,
+                "status": self.status,
+                "code": self.code
+            }
+
+    def criacao_tabelas(app):
+        with app.app_context():
+            db.create_all()
+            print('Tabelas criadas com sucesso!!')
+
+
+    def listar_tabelas():
+        with app.app_context():
+            with db.engine.connect() as connection:
+                result = connection.execute(text("SHOW TABLES"))
+                print("Tabelas no banco de dados:")
+                for row in result:
+                    print(row[0])
+

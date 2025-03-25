@@ -9,9 +9,21 @@ init_db(app)
 def home():
     return jsonify(message='Home')
 
-@app.route('/cadastro', methods=['GET', 'POST'])
+
+@app.route('/cadastro', methods=['POST'])
 def cadastro():
-    return UserController.register_user()
+    return UserController.register_userJson()
+
+
+@app.route('/ativacao', methods=['GET', 'POST'])
+def ativacao():
+    return UserController.activate_user()
+
+
+@app.route('/login', methods=['GET'])
+def login():
+    return UserController.login_user()
+
 
 if __name__ == '__main__':
     app.run(debug=True)

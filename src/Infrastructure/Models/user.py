@@ -1,4 +1,5 @@
-from config.data_base import db 
+from config.data_base import db
+import random 
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -7,9 +8,12 @@ class User(db.Model):
     cnpj = db.Column(db.String(18), nullable=False, unique=True)
     email = db.Column(db.String(100), nullable=False, unique=True)
     celular = db.Column(db.String(16), nullable=False)
-    senha = db.Column(db.String(100), nullable=False)
+    senha = db.Column(db.String(255), nullable=False)
     status = db.Column(db.Boolean, nullable=False, default=False)
     code = db.Column(db.Integer, nullable=True, default=None)
+
+    def generate_activation_code(self):
+        self.code = random.randint(1000, 9999)
 
     def to_dict(self):
             return {

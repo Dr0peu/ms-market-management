@@ -1,5 +1,6 @@
 from flask import request, jsonify, make_response
 from Application.Service.user_service import UserService
+from Application.Service.auth_service import AuthService
 
 class UserController:
     @staticmethod
@@ -42,5 +43,17 @@ class UserController:
         data = request.get_json()
         email = data.get('email')
         senha = data.get('senha')
+
+        token = AuthService.authenticate_user(email, senha)
+        if token:
+            return make_response(jsonify({"token": token}), 200)
+        return make_response(jsonify({"erro": "Email ou senha inválidos"}), 401)
+    
+    @staticmethod
+    def protected_route():
+        user_data = AuthService.decode_token(request)
+        if not user_data:
+            return make_response(jsonify({"erro": "Token inválido ou expirado"}), 401)
+        return make_response(jsonify({"mensagem": "Acesso autorizado", "user_data": user_data}), 200)
 
         

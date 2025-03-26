@@ -1,30 +1,23 @@
-import random 
 from twilio.rest import Client
-import datetime
 
 
-account_sid = # acount_sid twilio
-auth_token = # token de autenticação twilio
-client = Client(account_sid, auth_token)
+account_sid = 'colocar_hash'
+auth_token = 'colocar_hash'
 twilio_numero_whats = 'whatsapp:+14155238886'
+client = Client(account_sid, auth_token)
 
 whats_numeros_destino = [] # numero de destino
 
-numero_aleatorio = random.randint(1000, 9999)
+def send_whatsapp_message(numero_destino, codigo):
+    try:
+        message = client.messages.create(
+            from_=twilio_numero_whats,
+            body=f'Seu código de ativação é: {codigo}. Válido por 1 hora.',
+            to=f'whatsapp:{numero_destino}'
+        )
+        print(f'Mensagem enviada para {numero_destino}, SID: {message.sid}')
+    except Exception as e:
+        print(f"Erro ao enviar mensagem: {e}")
 
-for numero in whats_numeros_destino:
-    message = client.messages.create(
-        from = twilio_numero_whats,
-        body = (
-            'Olá,\n'
-            'Este é seu código de verificação: ' + str(numero_aleatorio) + '\n'
-            'Válido por uma hora'
-            ),
-            to = numero
-    )
-    print(f'Menssagem enviada para {numero} com sucesso')
 
-    message_sid = message.sid
-    message_status = client.messages(message_sid).fetch().status
-    print(f'Status da mensagem: {message_status}')
     

@@ -1,4 +1,7 @@
 Flask==2.2.5
+flask-cors
+flask-jwt-extended
+twilio
 mysql-connector-python==8.0.28
 SQLAlchemy==2.0.39
 Flask-SQLAlchemy==3.1.1

@@ -52,11 +52,46 @@
             background-color: #0056b3;
         }
     </style>
+    <script>
+        function validarFormulario(event) {
+            event.preventDefault(); // Impede o envio do formulário
+
+            const nome = document.getElementById('nome').value.trim();
+            const cnpj = document.getElementById('cnpj').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const celular = document.getElementById('celular').value.trim();
+            const senha = document.getElementById('senha').value.trim();
+
+            if (!nome) {
+                alert('Por favor, preencha o campo Nome.');
+                return;
+            }
+            if (!cnpj) {
+                alert('Por favor, preencha o campo CNPJ.');
+                return;
+            }
+            if (!email) {
+                alert('Por favor, preencha o campo Email.');
+                return;
+            }
+            if (!celular) {
+                alert('Por favor, preencha o campo Celular.');
+                return;
+            }
+            if (!senha) {
+                alert('Por favor, preencha o campo Senha.');
+                return;
+            }
+
+            alert('Usuário incluído com sucesso!');
+            document.getElementById('formCadastro').submit(); // Envia o formulário
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <h1>Cadastro de Sallers</h1>
-        <form action="/cadastro" method="post">
+        <form id="formCadastro" action="/cadastro" method="POST" onsubmit="validarFormulario(event)">
             <label for="nome">Nome:</label>
             <input type="text" id="nome" name="nome" required><br><br>
 
@@ -72,10 +107,7 @@
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required><br><br>
 
-            <label for="status">Status:</label>
-            <input type="text" id="status" name="status" required><br><br>
-
-            <input type="submit" value="Cadastrar">
+            <button type="submit">Cadastrar</button>
         </form>
     </div>
 </body>

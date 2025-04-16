@@ -6,5 +6,4 @@ class UserDomain:
         self.celular = celular
         self.senha = senha
         self.status = status
-        self.code = code
-        
+        self.code = code 

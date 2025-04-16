@@ -30,7 +30,7 @@ class User(db.Model):
     def criacao_tabelas(app):
         with app.app_context():
             db.create_all()
-            print('Tabelas criadas com sucesso!!')
+            print('Tabela de usuarios criada com sucesso!!')
 
 
     def listar_tabelas():

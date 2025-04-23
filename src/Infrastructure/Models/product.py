@@ -1,6 +1,6 @@
 from config.data_base import db
 
-class Products(db.Model):
+class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_user = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -25,7 +25,6 @@ class Products(db.Model):
         with app.app_context():
             db.create_all()
             print('Tabela de produtos criada com sucesso!!')
-
 
     def listar_tabelas():
         with app.app_context():

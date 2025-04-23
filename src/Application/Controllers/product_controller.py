@@ -15,7 +15,7 @@ class ProductController:
         campos = ['nome', 'preco', 'quantidade', 'status', 'imagem']
         falta_campo = [campo for campo in campos if not data.get(campo)]
 
-        if missing_fields:
+        if falta_campo:
             return make_response(jsonify({"erro": "Todos os campos são obrigatórios"}), 400)
 
         product = ProductService.create_product(nome, preco, quantidade, status, imagem)

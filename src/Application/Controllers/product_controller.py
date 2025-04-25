@@ -6,19 +6,19 @@ class ProductController:
     @staticmethod
     def register_productJson():
         data = request.get_json()
+        id_user = data.get('id_user')
         nome = data.get('nome')
         preco = data.get('preco')
         quantidade = data.get('quantidade')
-        status = data.get('status')
         imagem = data.get('imagem')
 
-        campos = ['nome', 'preco', 'quantidade', 'status', 'imagem']
+        campos = ['id_user', 'nome', 'preco', 'quantidade', 'imagem']
         falta_campo = [campo for campo in campos if not data.get(campo)]
 
         if falta_campo:
             return make_response(jsonify({"erro": "Todos os campos são obrigatórios"}), 400)
 
-        product = ProductService.create_product(nome, preco, quantidade, status, imagem)
+        product = ProductService.create_product(id_user, nome, preco, quantidade, imagem)
         
         return make_response(jsonify({
             "mensagem": "Produto criado com sucesso",

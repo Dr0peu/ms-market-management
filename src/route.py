@@ -33,7 +33,7 @@ def protegido():
 
 @app.route('/cadastro_produto', methods=['POST'])
 def cadastro_produto():
-    return UserController.register_productJson()
+    return ProductController.register_productJson()
 
 
 if __name__ == '__main__':

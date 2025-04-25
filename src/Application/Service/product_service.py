@@ -5,12 +5,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class ProductService:
     @staticmethod
-    def create_product(nome, preco, quantidade, status=False, imagem=None):
+    def create_product(id_user, nome, preco, quantidade, imagem=None):
         new_product = Product(
+            id_user=id_user,
             nome=nome, 
             preco=preco,
             quantidade=quantidade, 
-            status=status,
             imagem=imagem
         )
  

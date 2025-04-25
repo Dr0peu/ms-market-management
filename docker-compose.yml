@@ -3,8 +3,8 @@ version: '3.3'
 services:
   market-management-db: 
     image: mysql:8.0
-    command: --innodb-use-native-aio=0
     container_name: mysql_container
+    command: --innodb-use-native-aio=0 --ssl=0
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: ms_market_db
@@ -13,4 +13,8 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "./.docker/dbdata:/var/lib/mysql"
+      - mysql_data:/var/lib/mysql
+
+
+volumes:
+  mysql_data:

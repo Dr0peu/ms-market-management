@@ -12,8 +12,11 @@ class UserController:
         celular = data.get('celular')
         senha = data.get('senha')
 
-        if not nome or not cnpj or not email or not celular or not senha:
-                return make_response(jsonify({"erro": "Todos os campos são obrigatórios"}), 400)
+        campos = ['nome', 'cnpj', 'email', 'celular', 'senha']
+        falta_campo = [campo for campo in campos if not data.get(campo)]
+
+        if falta_campo:
+            return make_response(jsonify({"erro": "Todos os campos são obrigatórios"}), 400)
 
         user = UserService.create_user(nome, cnpj, email, celular, senha)
         

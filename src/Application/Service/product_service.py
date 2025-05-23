@@ -5,11 +5,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class ProductService:
     @staticmethod
-    def create_product(nome, preco, quantidade, status=False, imagem=None):
+    def create_product(id_user, nome, preco, quantidade, status=False, imagem=None):
         new_product = Product(
-            nome=nome, 
+            id_user=id_user,
+            nome=nome,
             preco=preco,
-            quantidade=quantidade, 
+            quantidade=quantidade,
             status=status,
             imagem=imagem
         )
@@ -17,6 +18,11 @@ class ProductService:
         db.session.add(new_product)
         db.session.commit()
         return new_product
+    
+    @staticmethod
+    def list_products():
+        products = Product.query.all()
+        return [product.to_dict() for product in products]
     
 
    

@@ -48,9 +48,20 @@ class UserController:
         senha = data.get('senha')
 
         token = AuthService.authenticate_user(email, senha)
+
         if token:
-            return make_response(jsonify({"token": token}), 200)
-        return make_response(jsonify({"erro": "Email ou senha inválidos"}), 401)
+            
+            user = UserService.get_user_by_email(email)
+
+            if not user:
+                return make_response(jsonify({"erro": "Usuário não encontrado"}), 404)
+            
+            return make_response(jsonify({
+                "token": token,
+                "user": {"id": user.id, "nome": user.nome, "email": user.email}
+                }), 200)
+        
+        return make_response(jsonify({"messagem": "Email ou senha inválidos"}), 401)
     
     @staticmethod
     def protected_route():

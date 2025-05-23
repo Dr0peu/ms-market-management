@@ -32,3 +32,10 @@ class UserService:
             db.session.commit()
             return True
         return False
+    
+    @staticmethod
+    def get_user_by_email(email):
+        user = User.query.filter_by(email=email).first()
+        if user:
+            return user
+        return None

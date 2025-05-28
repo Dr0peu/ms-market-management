@@ -5,6 +5,8 @@ from werkzeug.utils import secure_filename
 
 from Application.Controllers.user_controller import UserController
 from Application.Controllers.product_controller import ProductController
+from Application.Controllers.sale_controller import SaleController
+
 from config.data_base import init_db
 
 app = Flask(__name__)
@@ -84,6 +86,13 @@ def upload_imagem():
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/vendas', methods=['POST', 'OPTIONS'])
+def registrar_venda():
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'ok'}), 200
+    
+    return SaleController.register_sale()
 
 if __name__ == '__main__':
     app.run(debug=True)

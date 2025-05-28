@@ -28,3 +28,14 @@ class SaleController:
             "mensagem": "Venda registrada com sucesso!",
             "venda": venda.to_dict()
         }), 201)
+    
+    @staticmethod
+    def sales_report():
+        user_data = AuthService.decode_token(request)
+        if not user_data:
+            return make_response(jsonify({"erro": "Token inválido ou expirado"}), 401)
+
+        id_user = user_data['user_id']
+        resumo = SaleService.get_sales_summary_by_user(id_user)
+
+        return make_response(jsonify(resumo), 200)

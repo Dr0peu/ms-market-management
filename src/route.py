@@ -91,7 +91,7 @@ def uploaded_file(filename):
 def registrar_venda():
     if request.method == 'OPTIONS':
         return jsonify({'status': 'ok'}), 200
-    
+        
     return SaleController.register_sale()
 
 if __name__ == '__main__':

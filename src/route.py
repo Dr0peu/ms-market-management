@@ -50,6 +50,18 @@ def cadastro_produto():
 def listar_produtos():
     return ProductController.list_products()
 
+@app.route('/produtos/<int:id_product>', methods=['GET'])
+def get_product(id_product):
+    return ProductController.get_product(id_product)
+
+@app.route('/produtos/<int:id_product>', methods=['PUT'])
+def update_product(id_product):
+    return ProductController.update_product(id_product)
+
+@app.route('/produtos/<int:id_product>', methods=['DELETE'])
+def deletar_produto(id_product):
+    return ProductController.delete_product(id_product)
+
 @app.route('/upload_imagem', methods=['POST'])
 def upload_imagem():
     if 'imagem' not in request.files:

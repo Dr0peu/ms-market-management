@@ -78,7 +78,7 @@ def upload_imagem():
         filename = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
-        url = f"/uploads/{filename}"  # caminho público relativo
+        url = f"/uploads/{filename}"
         return jsonify({"url": url}), 201
 
     return jsonify({"erro": "Formato de arquivo não permitido"}), 400
@@ -93,6 +93,12 @@ def registrar_venda():
         return jsonify({'status': 'ok'}), 200
         
     return SaleController.register_sale()
+
+@app.route('/relatorio-vendas', methods=['GET', 'OPTIONS'])
+def relatorio_vendas():
+    if request.method == 'OPTIONS':
+        return jsonify({"status": "ok"}), 200
+    return SaleController.sales_report()
 
 if __name__ == '__main__':
     app.run(debug=True)

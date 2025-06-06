@@ -1,6 +1,7 @@
 from Infrastructure.Models.sale import Sale
 from Infrastructure.Models.product import Product
 from Infrastructure.Models.user import User
+from sqlalchemy import func
 from datetime import datetime, timedelta
 from config.data_base import db
 
@@ -40,19 +41,44 @@ class SaleService:
         hoje = datetime.utcnow()
         sete_dias_atras = hoje - timedelta(days=6)
 
-        resultados = db.session.query(
+        vendas = db.session.query(
             func.date(Sale.data_venda).label('dia'),
+            Product.nome.label('produto'),
+            func.sum(Sale.quantidade).label('quantidade'),
             func.sum(Sale.quantidade * Sale.preco_unitario).label('total')
-        ).filter(
+        ).join(Product, Product.id == Sale.id_produto)\
+        .filter(
             Sale.id_user == id_user,
             Sale.data_venda >= sete_dias_atras
         ).group_by(
-            func.date(Sale.data_venda)
+            func.date(Sale.data_venda), Product.nome
         ).order_by(func.date(Sale.data_venda)).all()
 
-        resumo = {str((hoje - timedelta(days=i)).date()): 0 for i in range(6, -1, -1)}
+        resumo = {}
 
-        for dia, total in resultados:
-            resumo[str(dia)] = float(total)
+        for dia, produto, quantidade, total in vendas:
+            str_dia = str(dia)
+            if str_dia not in resumo:
+                resumo[str_dia] = {
+                    "total": 0,
+                    "quantidade": 0,
+                    "produtos": []
+                }
+            resumo[str_dia]["total"] += float(total)
+            resumo[str_dia]["quantidade"] += int(quantidade)
+            resumo[str_dia]["produtos"].append({
+                "nome": produto,
+                "quantidade": int(quantidade),
+                "subtotal": float(total)
+            })
+
+        for i in range(6, -1, -1):
+            data = str((hoje - timedelta(days=i)).date())
+            if data not in resumo:
+                resumo[data] = {
+                    "total": 0,
+                    "quantidade": 0,
+                    "produtos": []
+                }
 
         return resumo
